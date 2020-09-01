@@ -1,2 +1,2 @@
 # cool-ssh-app
-Convenient, Cool, OpenSource SSH Client Application
+Cool, Convenient, OpenSource SSH Client Application
