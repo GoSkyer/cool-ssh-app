@@ -2,11 +2,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>org.goskyer</groupId>
     <artifactId>ssh-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-    
+    <properties>
+        <encoding>UTF-8</encoding>
+        <java.version>1.11</java.version>
+        <maven.compiler.release>11</maven.compiler.release>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.sshd</groupId>
+            <artifactId>sshd-core</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
+    </dependencies>
+
 </project>

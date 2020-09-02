@@ -1,6 +1,8 @@
-package org.goskyer.sshcore;
+package org.goskyer.sshcore.info;
 
 public class ServerInfo {
+
+    private boolean isEnable;
 
     private String nickname;
 
@@ -13,6 +15,22 @@ public class ServerInfo {
     private DiskInfo diskInfo;
 
     private NetworkInfo networkInfo;
+
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public UserInfo getUserInfo() {
         return userInfo;

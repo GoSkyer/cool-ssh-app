@@ -1,2 +1,5 @@
-package org.goskyer.sshcore;public class SSHConnection {
+package org.goskyer.sshcore;
+
+public interface SSHConnection {
+
 }

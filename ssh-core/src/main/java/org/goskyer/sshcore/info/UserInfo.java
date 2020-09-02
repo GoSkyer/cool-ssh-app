@@ -1,4 +1,4 @@
-package org.goskyer.sshcore;
+package org.goskyer.sshcore.info;
 
 public class UserInfo {
 
