@@ -7,9 +7,17 @@ import org.apache.sshd.common.util.io.NoCloseInputStream;
 import org.apache.sshd.common.util.io.NoCloseOutputStream;
 import org.goskyer.sshcore.ApacheSSHClient;
 import org.goskyer.sshcore.ApacheSSHConnection;
+import org.goskyer.sshcore.ReceiveStream;
+import org.goskyer.sshcore.SendStream;
 
-import java.io.IOException;
-import java.util.Collections;
+import java.io.*;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Main {
 
@@ -20,7 +28,6 @@ public class Main {
         String pwd;
     }
 
-
     public static void main(String[] args) throws Throwable {
 
         User user = new User();
@@ -30,26 +37,55 @@ public class Main {
         user.pwd = "761349852";
 
         ApacheSSHClient client = new ApacheSSHClient();
+        ReceiveStream receiver = new ReceiveStream();
+        SendStream sender = new SendStream();
 
-        new Thread(() -> {
+        new Thread("ssh-connection-thread") {
 
-            try {
-                ApacheSSHConnection connection = client.connect(user.ip, user.port, user.name, user.pwd, 10_000);
-                connection.openChannel(System.in, System.out, System.err);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
+            @Override
+            public void run() {
+                try {
+                    ApacheSSHConnection connection = client.connect(user.ip, user.port, user.name, user.pwd, 10_000);
+                    connection.openChannel(sender, receiver, System.err);
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
+
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
+
             }
 
-            try {
-                client.close();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
+        }.start();
+
+        new Thread("view-loop-thread") {
+
+            @Override
+            public void run() {
+                while (true) {
+
+                    String content = receiver.read();
+
+                    if (content != null) {
+                        System.out.print(content);
+                    }
+
+                    try {
+                        sleep(16);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e.getMessage());
+                    }
+
+                }
             }
 
-        }).start();
+        }.start();
 
-        while (true) {
-            Thread.sleep(1000);
+        for (; ; ) {
+            Thread.sleep(100);
         }
 
 
