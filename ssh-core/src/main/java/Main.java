@@ -1,23 +1,9 @@
-import org.apache.sshd.client.SshClient;
-import org.apache.sshd.client.channel.ClientChannel;
-import org.apache.sshd.client.channel.ClientChannelEvent;
-import org.apache.sshd.client.config.hosts.HostConfigEntry;
-import org.apache.sshd.client.session.ClientSession;
-import org.apache.sshd.common.util.io.NoCloseInputStream;
-import org.apache.sshd.common.util.io.NoCloseOutputStream;
 import org.goskyer.sshcore.ApacheSSHClient;
 import org.goskyer.sshcore.ApacheSSHConnection;
 import org.goskyer.sshcore.ReceiveStream;
 import org.goskyer.sshcore.SendStream;
 
-import java.io.*;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.io.IOException;
 
 public class Main {
 
@@ -83,6 +69,17 @@ public class Main {
             }
 
         }.start();
+
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                sender.write("ls");
+            }
+        }).start();
 
         for (; ; ) {
             Thread.sleep(100);
