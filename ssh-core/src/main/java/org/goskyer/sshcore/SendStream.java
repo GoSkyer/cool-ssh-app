@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 public class SendStream extends InputStream {
 
-    private WaitGroup wg = new WaitGroup();
+    private final WaitGroup wg = new WaitGroup();
     private boolean isEnd = false;
 
     private byte[] buffer = null;

@@ -2,8 +2,6 @@ package org.goskyer.sshcore;
 
 import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
-import org.apache.sshd.client.config.hosts.HostConfigEntry;
-import org.apache.sshd.client.future.ConnectFuture;
 
 import java.io.Closeable;
 import java.io.IOException;

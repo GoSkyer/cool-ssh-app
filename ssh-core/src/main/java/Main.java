@@ -25,7 +25,9 @@ public class Main {
         ApacheSSHClient client = new ApacheSSHClient();
         ReceiveStream receiver = new ReceiveStream();
         SendStream sender = new SendStream();
+        boolean isOpenSucceed = false;
 
+        // 独立线程保持ssh连接
         new Thread("ssh-connection-thread") {
 
             @Override
@@ -47,6 +49,7 @@ public class Main {
 
         }.start();
 
+        // 模拟数据读取，每秒60次
         new Thread("view-loop-thread") {
 
             @Override
@@ -70,6 +73,7 @@ public class Main {
 
         }.start();
 
+        // 模拟用户输入指令
         new Thread(() -> {
             while (true) {
                 try {

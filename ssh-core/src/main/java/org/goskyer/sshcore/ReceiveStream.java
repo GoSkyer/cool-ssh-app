@@ -8,9 +8,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ReceiveStream extends OutputStream {
 
-    private Lock lockRW = new ReentrantLock(true);
+    private final Lock lockRW = new ReentrantLock(true);
 
-    private int baseCap = 1 << 8;
+    private final int baseCap = 1 << 8;
     private int cap = baseCap;
     private int length = 0;
     private byte[] buffer = new byte[cap];
